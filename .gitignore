@@ -1,0 +1,45 @@
+# Secrets and credentials
+.env
+*.env
+
+# Trained models
+*.pkl
+
+# Data files
+*.csv
+*.gz
+freshcart_landing/
+
+# Mage logs
+mage.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Submission archives
+*.zip
