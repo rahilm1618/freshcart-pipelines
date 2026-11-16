@@ -12,7 +12,7 @@
   In a Distributed Version Control System (DVCS), every developer holds a complete history. Files transition through four states:
   1. *Untracked/Modified* in Working Tree &rarr; 2. *Staged (Index)* via `git add` &rarr; 3. *Committed (HEAD)* via `git commit` &rarr; 4. *Pushed (Remote)* via `git push`.
 - **Implementation Example:**
-  In `freshcart-pipelines`, running `git status` after editing `stream/dispatcher.py` showed it in red under "Changes not staged for commit". Running `git add stream/dispatcher.py` moved the blob into the index, and `git commit` sealed commit `c4bdb3c` locally without sending network packets.
+  In `freshcart-pipelines`, running `git status` after editing `stream/dispatcher.py` showed it in red under "Changes not staged for commit". Running `git add stream/dispatcher.py` moved the blob into the index, and `git commit` sealed commit `2cc3872` locally without sending network packets.
 - **Why Design Chosen:** Decoupling staging from committing allows atomic, well-scoped commits rather than bundling unrelated work together.
 - **Likely Follow-up Question:** *"Can your teammate see your code after you run `git commit`?"*
   - **Answer:** *"No. `git commit` only updates the local object database in `.git/objects` and moves the local branch pointer `refs/heads/main`. No network traffic occurs until `git push origin main` uploads the packfiles to GitHub."*
@@ -25,9 +25,9 @@
 - **Deeper Explanation:**
   In `.github/workflows/ci.yml`, the job runs on an `ubuntu-latest` container with Python 3.12. The runner executes `pytest tests/`. In Unix shells, step success depends on the process exit code (`$? == 0`).
 - **Implementation Example (Red vs Fix Green Runs):**
-  - In Run #1 (commit `fa158d2`, Run ID `43688840048`), `test_size=0.2` produced 120 train and 30 test records, passing all 3 assertions (Green).
-  - In Run #2 (commit `6294a30`, Run ID `43690034500`), we intentionally set `test_size=0.3`. The assertion `assert (df['split'] == 'train').sum() == 120` raised `AssertionError: assert 105 == 120`, exiting with code `1` and failing the CI run (Red).
-  - In Run #3 (commit `fa158d2`, Run ID `43690601305`), restoring `test_size=0.2` restored exit code `0` (Green).
+  - In Run #1 (commit `355dc3f`, Run ID `43919530719`), `test_size=0.2` produced 120 train and 30 test records, passing all 3 assertions (Green).
+  - In Run #2 (commit `a3a7416`, Run ID `43920787342`), we intentionally set `test_size=0.3`. The assertion `assert (df['split'] == 'train').sum() == 120` raised `AssertionError: assert 105 == 120`, exiting with code `1` and failing the CI run (Red).
+  - In Run #3 (commit `355dc3f`, Run ID `43921228322`), restoring `test_size=0.2` restored exit code `0` (Green).
 - **Likely Follow-up Question:** *"Why is CI essential before merging into `main`?"*
   - **Answer:** *"It enforces branch protection gates automatically, preventing broken dependencies, syntax regressions, and schema mismatches from polluting the production codebase."*
 

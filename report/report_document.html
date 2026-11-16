@@ -365,27 +365,24 @@ Local tree structure mirrors production standards: <code>elt/</code> (Snowflake 
     </tr>
   </thead>
   <tbody>
-    <tr><td><strong>Run #1 (Initial Green)</strong></td><td><code>fa158d2</code>: Initial scaffolding</td><td><code>test_size=0.2</code> (120/30 split)</td><td><span class="badge badge-pass">✅ SUCCESS (Green)</span></td><td><code>43688840048</code></td></tr>
-    <tr><td><strong>Run #2 (Intentional Red)</strong></td><td><code>6294a30</code>: test(ci): intentional failure</td><td><code>test_size=0.3</code> (105/45 split)</td><td><span class="badge badge-fail">❌ FAILED (Red)</span></td><td><code>43690034500</code></td></tr>
-    <tr><td><strong>Run #3 (Fix Green)</strong></td><td><code>fa158d2</code>: fix(ci): restore 80/20 split</td><td><code>test_size=0.2</code> (120/30 split)</td><td><span class="badge badge-pass">✅ SUCCESS (Green)</span></td><td><code>43690601305</code></td></tr>
+    <tr><td><strong>Run #1 (Initial Green)</strong></td><td><code>f25fd42</code>: Initial scaffolding</td><td><code>test_size=0.2</code> (120/30 split)</td><td><span class="badge badge-pass">✅ SUCCESS (Green)</span></td><td><code>43919530719</code></td></tr>
+    <tr><td><strong>Run #2 (Intentional Red)</strong></td><td><code>a3a7416</code>: test(ci): intentional failure</td><td><code>test_size=0.3</code> (105/45 split)</td><td><span class="badge badge-fail">❌ FAILED (Red)</span></td><td><code>43920787342</code></td></tr>
+    <tr><td><strong>Run #3 (Fix Green)</strong></td><td><code>355dc3f</code>: fix(ci): restore 80/20 split</td><td><code>test_size=0.2</code> (120/30 split)</td><td><span class="badge badge-pass">✅ SUCCESS (Green)</span></td><td><code>43921228322</code></td></tr>
   </tbody>
 </table>
 
 <h4>Actual <code>git log --oneline</code> Output:</h4>
 <pre>
-dca11a7 docs(report): complete Part E final 8-page PDF report with integration diagram and engineering reflection
-e212faf feat(bonus): implement RabbitMQ stream consumer to Snowflake Lakehouse with verified idempotency
-95d6328 feat(elt): complete Parts B4 and B5 with SCD2 verification, 6th quality check experiment, and visual evidence
-7fedb30 docs(elt): commit Part B1/B2/B3 reports and record Part B4 predictions before execution
-c4bdb3c feat(stream): complete Parts D2 and D3 with live RabbitMQ execution, ACK/NACK verification, and evidence
-a18f42c feat(stream): add automated 2-minute multi-driver streaming test harness
-7effd39 docs(stream): document D2 architecture, D3 ACK/NACK crash and poison pill analysis
-46b047a docs(stream): record Part D1 topic routing predictions on paper prior to D2 execution
-5e54b67 docs(stream): complete Part D1 routing analysis, D3 ACK/NACK report and evidence
-465e4b3 feat(mage): complete Parts C1-C4 pipeline, test-gate experiments, evaluation branch, and custom block
-f97fed6 docs(part_A): add verified screenshots and finalize Part A verification in tracker
-fa158d2 fix(ci): restore test_size=0.2 (80/20 train-test split)
-6294a30 test(ci): intentional failure with test_size=0.3 for CI experiment
+355dc3f (HEAD -> main, origin/main) fix(ci): restore 80/20 train-test split
+a3a7416 test(ci): intentional CI failure with test_size=0.3
+f25fd42 docs: add execution screenshots, evidence index, and report documentation
+ae1f2d8 feat(bonus): stream into Lakehouse with 60s micro-batching and idempotency proof
+2cc3872 feat(stream): implement RabbitMQ topic exchange dispatcher and driver consumers
+0f69fc5 feat(mage): implement Iris ML pipeline with test-gate experiments across max_depth 1-5
+a60b8c0 feat(elt): add SCD2 customer tier update and 6th quality check experiment
+0d3759e feat(elt): implement FreshCart multi-hop ELT pipeline on Snowflake
+74b7d54 feat(ci): add pytest test suite and GitHub Actions CI workflow
+1986bb8 feat: initial project scaffolding with dependencies and configuration
 </pre>
 
 <div class="page-break"></div>
@@ -470,7 +467,7 @@ SELECT ingest_seq, source, raw:orderId::STRING AS order_id, raw:total.value::STR
 </ul>
 
 <h3>B4. Arjun Gold Tier SCD2 Update (Predictions vs Actuals)</h3>
-<p>Predictions were formally committed in <code>report/B4_predictions_before_run.md</code> (commit <code>7fedb30</code>) <em>before</em> executing the pipeline with Arjun's CRM tier event (effective <code>2026-08-15</code>):</p>
+<p>Predictions were formally committed in <code>report/B4_predictions_before_run.md</code> (commit <code>0d3759e</code>) <em>before</em> executing the pipeline with Arjun's CRM tier event (effective <code>2026-08-15</code>):</p>
 <table>
   <thead>
     <tr>
@@ -564,7 +561,7 @@ evaluate_model (transformer) ◄────────────────
 <h2>Part D: Food-Order Streaming with RabbitMQ (20 Marks)</h2>
 
 <h3>D1. Topic Routing Table (Theoretical vs Actual)</h3>
-<p>Routing rules: <code>*</code> matches <em>exactly one</em> word; <code>#</code> matches <em>zero or more</em> words. Routing predictions were documented in <code>report/D1_routing_predictions.md</code> (commit <code>46b047a</code>) before implementation:</p>
+<p>Routing rules: <code>*</code> matches <em>exactly one</em> word; <code>#</code> matches <em>zero or more</em> words. Routing predictions were documented in <code>report/D1_routing_predictions.md</code> (commit <code>2cc3872</code>) before implementation:</p>
 <table>
   <thead>
     <tr>
