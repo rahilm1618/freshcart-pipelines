@@ -1,0 +1,66 @@
+[00:06:25] ================================================================================
+[00:06:25]   BONUS EXPERIMENT: CONNECT RABBITMQ TO SNOWFLAKE LAKEHOUSE
+[00:06:25] ================================================================================
+[00:06:26] 
+[STEP 1] Recording Baseline Gold Table Metrics...
+[00:06:27]   Existing Gold Rows    : 4
+[00:06:27]   Existing Gold Revenue : INR 7,785.00
+[00:06:27]   Existing Gold Points  : 161
+[00:06:27]   Existing Orders in Gold:
+[00:06:27]     ORD-1001: cust=CUST-01 tier=Silver mult=1 inr=1250.00 pts=12
+[00:06:27]     ORD-1002: cust=CUST-02 tier=Gold mult=2 inr=3536.00 pts=70
+[00:06:27]     ORD-1003: cust=CUST-03 tier=Platinum mult=3 inr=2100.00 pts=63
+[00:06:27]     ORD-1005: cust=CUST-01 tier=Gold mult=2 inr=899.00 pts=16
+[00:06:27] 
+[STEP 2] Launching Dispatcher and Consumer for 60s Batch Window...
+[00:06:27]   Consumer queue 'freshcart_lakehouse_251a3c' declared and bound to '#.food'
+[00:06:28]   Started Dispatcher (PID 25056) publishing to 'rapido-dispatch'...
+[00:07:29]   Dispatcher stopped and consumer queue cleaned up.
+[00:07:29]   Successfully collected 10 valid FreshCart orders from RabbitMQ.
+[00:07:29] 
+[STEP 3] Writing Landing File and Ingesting Batch 1 (run_id=bonus_stream_batch_01)...
+[00:07:29]   Landing file generated: C:\data_eng_assignment\freshcart-pipelines\freshcart_landing\web\web__bonus_stream_batch_01.json.gz
+[00:07:31]   Executing Silver & Gold Transformation SQL...
+[00:07:39] 
+--- Metrics After Run 1 (Stream Ingestion) ---
+[00:07:39]   Gold Rows    : 14 (increased by 10)
+[00:07:39]   Gold Revenue : INR 26,185.00 (+INR 18,400.00)
+[00:07:39]   Gold Points  : 596 (+435)
+[00:07:39]   All Current Gold Orders:
+[00:07:39]     ORD-1001: cust=CUST-01 tier=Silver inr=1250.00 pts=12
+[00:07:39]     ORD-1002: cust=CUST-02 tier=Gold inr=3536.00 pts=70
+[00:07:39]     ORD-1003: cust=CUST-03 tier=Platinum inr=2100.00 pts=63
+[00:07:39]     ORD-1005: cust=CUST-01 tier=Gold inr=899.00 pts=16
+[00:07:39]     ORD-STRM-0001: cust=CUST-01 tier=Gold inr=950.00 pts=18
+[00:07:39]     ORD-STRM-0003: cust=CUST-03 tier=Platinum inr=2200.00 pts=66
+[00:07:39]     ORD-STRM-0004: cust=CUST-01 tier=Gold inr=3100.00 pts=62
+[00:07:39]     ORD-STRM-0006: cust=CUST-03 tier=Platinum inr=950.00 pts=27
+[00:07:39]     ORD-STRM-0009: cust=CUST-03 tier=Platinum inr=3100.00 pts=93
+[00:07:39]     ORD-STRM-0011: cust=CUST-02 tier=Gold inr=950.00 pts=18
+[00:07:39]     ORD-STRM-0013: cust=CUST-01 tier=Gold inr=2200.00 pts=44
+[00:07:39]     ORD-STRM-0021: cust=CUST-03 tier=Platinum inr=950.00 pts=27
+[00:07:39]     ORD-STRM-0023: cust=CUST-02 tier=Gold inr=2200.00 pts=44
+[00:07:39]     ORD-STRM-0025: cust=CUST-01 tier=Gold inr=1800.00 pts=36
+[00:07:39] 
+================================================================================
+[00:07:39] [STEP 4] MANDATORY IDEMPOTENCY EXPERIMENT: REPLAYING SAME BATCH
+[00:07:39] ================================================================================
+[00:07:39]   Replaying raw landing file: C:\data_eng_assignment\freshcart-pipelines\freshcart_landing\web\web__bonus_stream_batch_01.json.gz
+[00:07:39]   Forcing raw load into Bronze with identical records...
+[00:07:41]   Raw Bronze re-load status: LOADED (10 records)
+[00:07:41]   Re-executing complete ELT pipeline (Silver -> Dedup -> SCD2 -> FX -> Gold MERGE)...
+[00:07:48] 
+--- Metrics After Replaying Exact Same Batch (Run 2) ---
+[00:07:48]   Gold Rows    : 14 (Expected: 14)
+[00:07:48]   Gold Revenue : INR 26,185.00 (Expected: INR 26,185.00)
+[00:07:48]   Gold Points  : 596 (Expected: 596)
+[00:07:48] 
+================================================================================
+[00:07:48]   IDEMPOTENCY VERIFICATION RESULTS
+[00:07:48] ================================================================================
+[00:07:48]   Delta Gold Rows    : 0  -> PASS (No duplicates created)
+[00:07:48]   Delta Gold Revenue : INR 0.00  -> PASS (Revenue did not double)
+[00:07:48]   Delta Gold Points  : 0  -> PASS (Points unchanged)
+[00:07:48] ================================================================================
+[00:07:49] 
+Bonus Pipeline Experiment Finished Successfully.
