@@ -18,7 +18,7 @@ if 'test' not in globals():
 
 @transformer
 def transform(df, *args, **kwargs):
-    test_size = kwargs.get('test_size', 0.2)
+    test_size = kwargs.get('test_size', 0.3)
     train_df, test_df = train_test_split(df, test_size=test_size, random_state=42)
 
     train_df = train_df.copy()
